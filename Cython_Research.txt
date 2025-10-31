@@ -1,0 +1,37 @@
+https://tenthousandmeters.com/blog/python-behind-the-scenes-1-how-the-cpython-vm-works/#:~:text=At%20the%20heart%20of%20CPython,the%20result%20to%20its%20caller
+https://docs.python.org/3/c-api/code.html
+
+Like Java, Python programs are first compiled into bytecode for a virtual machine
+CPython is an interpreter for Python 
+
+When python code is run, CPython's parser reads the text, checks the syntax, 
+and converts it into an AST. The AST is then compiled into bytecode. If the file
+was compiled before, it will have a .pyc file and thus does not need to be compiled again
+The bytecode is then loaded into the virtual machine and executes the bytecode sequentially.
+
+CPython's Virtual machine is stack based, meaning that when executing instructions,
+it uses a stack to store and retrieve data.
+
+Code Objects are the pieces of code that are executed as a single unit that haven't yet been bound into a 
+function. CPython stores information about what a code block does in a structure called 
+a code object. It contains the bytecode and such things as lists of names of variables 
+used within the block. To run a module or to call a function means to start evaluating a 
+corresponding code object.
+
+Function Objects are basically code objects with added information. This added information includes
+the function name, docstring, default arguments, and values of variables defined in 
+the enclosing scope. Function objects are created by the 'def' statement. They reference a 
+code object in their __code__ attribute, which is a purely syntactic object, i.e. nothing 
+more than a compiled version of some source code lines. There is one code object per source code 
+"fragment", but each code object can be referenced by zero or many function objects depending 
+only on how many times the 'def' statement in the source was executed so far.
+
+Frame Objects keeps track of the values of variables and the value stack. It also 
+keeps track of where it stopped executing the current code object to execute another 
+and where to go to return to where it initially left off. 
+
+The global interpreter lock (GIL) is used by CPython to coordinate threads. It is basically
+a mutex that only allows one native thread to execute Python bytecode at a time. This is used to 
+make sure there are no race conditions between threads.
+
+
