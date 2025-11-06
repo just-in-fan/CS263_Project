@@ -1,37 +1,70 @@
-https://tenthousandmeters.com/blog/python-behind-the-scenes-1-how-the-cpython-vm-works/#:~:text=At%20the%20heart%20of%20CPython,the%20result%20to%20its%20caller
-https://docs.python.org/3/c-api/code.html
+1. https://tenthousandmeters.com/blog/python-behind-the-scenes-1-how-the-cpython-vm-works/#:~:text=At%20the%20heart%20of%20CPython,the%20result%20to%20its%20caller
+2. https://blog.jetbrains.com/pycharm/2025/07/faster-python-unlocking-the-python-global-interpreter-lock/#:~:text=The%20GIL%20is%20technically%20a,This%20is
+3. https://docs.python.org/3/c-api/code.html
+4. https://realpython.com/cpython-source-code-guide/#:~:text=Take%20the%20,35%2C%2046%2C%2058%2C%2072%2C%2088
+5. https://www.geeksforgeeks.org/python/python-3-6-dictionary-implementation-using-hash-tables/
+6. https://blog.codingconfessions.com/p/cpython-memory-management-internals
 
 Like Java, Python programs are first compiled into bytecode for a virtual machine
-CPython is an interpreter for Python 
+CPython is an interpreter for Python. - 1
 
 When python code is run, CPython's parser reads the text, checks the syntax, 
 and converts it into an AST. The AST is then compiled into bytecode. If the file
 was compiled before, it will have a .pyc file and thus does not need to be compiled again
-The bytecode is then loaded into the virtual machine and executes the bytecode sequentially.
+The bytecode is then loaded into the virtual machine and executes the bytecode sequentially. - 1
 
 CPython's Virtual machine is stack based, meaning that when executing instructions,
-it uses a stack to store and retrieve data.
+it uses a stack to store and retrieve data. - 1
 
-Code Objects are the pieces of code that are executed as a single unit that haven't yet been bound into a 
-function. CPython stores information about what a code block does in a structure called 
-a code object. It contains the bytecode and such things as lists of names of variables 
-used within the block. To run a module or to call a function means to start evaluating a 
-corresponding code object.
+Code Objects are the pieces of code that are executed as a single unit that haven't yet 
+been bound into a function. CPython stores information about what a code block does in a 
+structure called a code object. It contains the bytecode and such things as lists of names 
+of variables used within the block. To run a module or to call a function means to start 
+evaluating a corresponding code object. - 2
 
-Function Objects are basically code objects with added information. This added information includes
-the function name, docstring, default arguments, and values of variables defined in 
+Function Objects are basically code objects with added information. This added information 
+includes the function name, docstring, default arguments, and values of variables defined in 
 the enclosing scope. Function objects are created by the 'def' statement. They reference a 
 code object in their __code__ attribute, which is a purely syntactic object, i.e. nothing 
-more than a compiled version of some source code lines. There is one code object per source code 
-"fragment", but each code object can be referenced by zero or many function objects depending 
-only on how many times the 'def' statement in the source was executed so far.
+more than a compiled version of some source code lines. There is one code object per source 
+code "fragment", but each code object can be referenced by zero or many function objects 
+depending only on how many times the 'def' statement in the source was executed so far. - 2
 
 Frame Objects keeps track of the values of variables and the value stack. It also 
 keeps track of where it stopped executing the current code object to execute another 
-and where to go to return to where it initially left off. 
+and where to go to return to where it initially left off. - 2
+
+CPython automatically manages memory for Python objects. It does this by keeping track of 
+how many references point to each object. For example, when creating a list, the list object
+is created and its reference count is set to 1. Assigning it to another name or storing it in 
+a container increments the count and deleting the object decrements the count. As soon as an
+object's reference count drops to 0, CPython immediately frees its memory. - 6
+
+When creating a python object, the memory for the object is split into 3 parts: the object's 
+references followed by the object's type, and then finally followed by the object's actual 
+value. - 4
+
+Since simple reference counting cannot handle cycles of references, CPython also has a cyclic 
+garbage collector. Periodically, the garbage collector searches for unreachable cycles of 
+objects and frees them. This garbage collector is run in the background and thus does not
+disrupt the code when it is running. - 6
 
 The global interpreter lock (GIL) is used by CPython to coordinate threads. It is basically
 a mutex that only allows one native thread to execute Python bytecode at a time. This is used to 
-make sure there are no race conditions between threads.
+make sure there are no race conditions between threads. - 3
+
+Lists in Python are implemented as a dynamic array of object pointers. This means that it 
+allocates a block of memory for elements which can grow as needed. When appending to a list in 
+python, CPython will place the new item into the existing space if there is space or if there 
+is none, it will allocate a larger block and copies the items over. Because of this, appending 
+an item to a list is amortized O(1) since most appends are just adding the elements to end of 
+the current list which is O(1) and the occasional resize which is copying over the entire list
+to a different part of memory O(n). If adding to middle of list, it is O(n) since need to shift 
+items that are already in the list. - 4
+
+Dictionaries in python are implemented as hash tables. Keys are hashed and the hash table maps 
+them to their values. The data for a dictionary is stored in a compact array of entries plus a
+smaller index table to handle collisions. Since dictionaries are hash tables, lookup, inserts, 
+and deletes are amortized O(1) (hash collisions make it not exactly O(1)). - 5
 
 
