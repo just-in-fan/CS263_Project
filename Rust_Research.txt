@@ -1,0 +1,35 @@
+1. https://rustc-dev-guide.rust-lang.org/overview.html#:~:text=AST%20lowering
+2. https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html
+
+Rust is a compiled language which means that it is translated ahead of time into native
+machine code. The compiler is for rust is called rustc. After compilation there is no 
+interpreter or VM needed. - 1
+
+When compiling a rust program, there are 5 main steps that rustc follows to turn the 
+source program into machine code. First is the lexer and parser. Rustc reads the source
+program and breaks it into many individual tokens. It then parses these tokens into 
+an AST. Next, is the AST lowering step where it converts the AST into High-Level 
+Intermediate Representation (HIR) which is a more compiler friendly version of the AST.
+rustc then takes this HIR to do type inference  type inference (the process of automatic 
+detection of the type of an expression), trait solving (the process of pairing up an impl
+with each reference to a trait), and type checking. The next step is MIR lowering where 
+the HIR is further lowered to MIR which is a control-flow graph form that is ideal for 
+optimizations and borrow checking. The last step is code generation where the MIR is 
+turned into LLVM-IR (an intermediate assembly-like code understood by the LLVM). This
+LLVM-IR is then fed to the LLVM which applies many low-level optimiztions, then 
+generates machine code. - 1
+
+There is no garbage collection in Rust. Instead Rust uses an ownership system. In this 
+ownership system, the core rules are each value has a single owner, ownership can be 
+moved but not implicitly copied, and when an owner goes out of scope the value is 
+dropped. These rules are enforced at compile time by the borrow checker, so that by 
+the time the code is compiled there are no dangling references or double frees left 
+to worry about. This guarantees memory safety without needing a garbage collector. - 2
+
+The compiler ensures that every piece of data has exactly one owner and that references
+do no outlive the data they point to through lifetimes analysis. An example would be if 
+you passed a string to a function without using a reference, the string would become 
+"owned" by the function and the original variable would no longer be valid. If you 
+instead borrowed it with &string, the compiler tracks the lifetime of that borrow so that
+it is not usable after string is deleted. - 2
+
