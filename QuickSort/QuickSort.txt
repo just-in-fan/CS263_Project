@@ -1,0 +1,9 @@
+1. https://www.geeksforgeeks.org/dsa/quick-sort-algorithm/
+
+"QuickSort is a sorting algorithm based on the Divide and Conquer that picks an 
+element as a pivot and partitions the given array around the picked pivot by 
+placing the pivot in its correct position in the sorted array" -1
+
+The main idea is to choose an element from the set, move all elements smaller 
+than this pivot to the left and move all elements larger than this pivot to the
+right. This is done recursively until the elements are sorted. 
