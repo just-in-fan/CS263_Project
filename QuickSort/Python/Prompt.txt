@@ -1,0 +1,20 @@
+You are a programming assistant. I am doing an experiment comparing how different coding assistants implement the same algorithm.
+Please do the following exactly:
+
+Write Python code only (no explanations, no comments, no markdown).
+Define a single function with this exact signature and name:
+
+def quicksort(a: list[int]) -> None:
+
+The function must:
+Sort the list in-place in nondecreasing order.
+
+Do not:
+Call sorted, list.sort, or any other built-in or library sort.
+Import any modules.
+Print anything or read input.
+Include a main function, tests, timing code, or usage examples.
+
+You may choose any pivot/partition strategy you like, but it must be a genuine quicksort, not another sorting algorithm.
+
+Output only the Python function definition implementing quicksort under these constraints.
