@@ -1,0 +1,22 @@
+You are a programming assistant. I am doing an experiment comparing how different coding assistants implement the same algorithm.
+Please do the following exactly:
+
+Write Rust code only (no explanations, no comments, no markdown).
+Define a single public function with this exact signature and name:
+
+pub fn quicksort(a: &mut [i32]) {
+}
+
+(You should fill in the body.)
+
+The function must:
+Sort the slice in-place in nondecreasing order.
+
+Do not:
+Call .sort(), .sort_unstable(), or any other library sort.
+Use any external crates.
+Print anything, read input, or include a main function, tests, or benchmarking code.
+
+You may choose any pivot/partition strategy you like, but it must be a genuine quicksort, not another sorting algorithm.
+
+Output only the Rust function implementation for quicksort under these constraints.
