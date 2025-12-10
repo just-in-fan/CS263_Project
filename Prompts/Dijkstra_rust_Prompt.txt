@@ -1,0 +1,37 @@
+I’m working on a project comparing different AI coding assistants on the same algorithm. Please implement **Dijkstra’s shortest path algorithm** in Rust with the following exact API and constraints.
+
+Use these type aliases:
+
+    use std::collections::HashMap;
+    pub type Node = usize;
+    pub type Weight = f64;
+    pub type Graph = HashMap<Node, Vec<(Node, Weight)>>;
+
+Implement this function:
+
+    pub fn dijkstra(graph: &Graph, source: Node) -> HashMap<Node, Weight> {
+        // ...
+    }
+
+**Semantics:**
+- The graph is directed with non-negative edge weights.
+- `graph[&u]` (if present) is a list of `(v, w)` edges meaning an edge `u -> v` with weight `w`.
+- Return a `HashMap<Node, Weight>` where each entry gives the shortest-path distance from `source` to that node.
+- Nodes unreachable from `source` should be either:
+    - omitted from the result, OR
+    - present with distance `f64::INFINITY`. Pick one convention and document it in a comment.
+
+**Requirements:**
+- Use a **priority queue** based on `std::collections::BinaryHeap`. Implement a min-heap using `std::cmp::Reverse` or an equivalent pattern.
+- Overall time complexity should be **O(E log V)** for V nodes and E edges.
+- Assume all edge weights are non-negative.
+- Implement everything **from scratch**:
+    - Do NOT use external graph crates
+    - Do NOT just call a built-in shortest-path function.
+- Write idiomatic, readable Rust. You may define a small internal struct or type alias for heap entries if you like.
+
+Please return a self-contained Rust code snippet with:
+- the `use` statements,
+- the `type` aliases,
+- and the `pub fn dijkstra` implementation,
+and no extra commentary.

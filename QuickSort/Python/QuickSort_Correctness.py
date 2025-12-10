@@ -18,9 +18,9 @@ from QuickSort_Claude import quicksort as quicksort_claude
 from QuickSort_DeepSeek import quicksort as quicksort_deepseek
 from QuickSort_Gemini import quicksort as quicksort_gemini
 
-SortFunc = Callable[[List[int]], None]
+# SortFunc = Callable[[List[int]], None]
 
-ALGORITHMS: Dict[str, SortFunc] = {
+ALGORITHMS = {
     "Chatgpt" : quicksort_chatgpt,
     "Claude" : quicksort_claude,
     "Deepseek" : quicksort_deepseek,

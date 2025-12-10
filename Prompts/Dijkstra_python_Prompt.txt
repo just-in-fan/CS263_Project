@@ -1,0 +1,33 @@
+I’m working on a project comparing different AI coding assistants on the same algorithm. Please implement **Dijkstra’s shortest path algorithm** in Python with the following exact API and constraints.
+
+Use this type alias:
+
+    from typing import Dict, List, Tuple
+    Node = int
+    Weight = float
+    Graph = Dict[Node, List[Tuple[Node, Weight]]]
+
+Implement this function:
+
+    def dijkstra(graph: Graph, source: Node) -> Dict[Node, float]:
+        """
+        Compute the shortest path distance from `source` to every reachable node
+        in a directed graph with non-negative edge weights.
+
+        - `graph[u]` is a list of (v, w) edges meaning an edge u -> v with weight w.
+        - Return a dict `dist` where `dist[u]` is the distance from `source` to u.
+        - Nodes unreachable from `source` should be either:
+            - omitted from the result, OR
+            - present with distance float("inf"). Pick one convention and document it.
+        """
+
+**Requirements:**
+- Use a **priority queue (min-heap)** via the Python standard library `heapq` module.
+- Overall time complexity should be **O(E log V)** for V nodes and E edges.
+- All edge weights are non-negative.
+- Implement everything **from scratch**:
+  - Do NOT use any external graph library.
+  - Do NOT just call an existing shortest-path function.
+- Write clean, readable code with a short docstring explaining your behavior for unreachable nodes.
+
+Return only the Python code for the function (and any helpers), no extra commentary.
